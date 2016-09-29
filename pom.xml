@@ -21,6 +21,7 @@
         <hibernate-validator.version>4.1.0.Final</hibernate-validator.version>
         <slf4j.version>1.7.12</slf4j.version>
         <universal-analytics.version>2.1</universal-analytics.version>
+       	<maven-war-plugin.version>2.6</maven-war-plugin.version>
     </properties>
 
     <dependencies>
@@ -100,6 +101,11 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+        <dependency>
+    		<groupId>org.slf4j</groupId>
+    		<artifactId>slf4j-simple</artifactId>
+    		<version>${slf4j.version}</version>
+		</dependency>
     </dependencies>
 
     <build>
@@ -114,6 +120,25 @@
                     <extraJvmArgs>-Xmx1G</extraJvmArgs>
                 </configuration>
             </plugin>
+            
+            <!-- Copy static web files before executing gwt:run -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exploded</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <webappDirectory>${webappDirectory}</webappDirectory>
+                </configuration>
+            </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
